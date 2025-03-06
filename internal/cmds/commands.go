@@ -3,15 +3,16 @@ package cmds
 import "github.com/agustin-carnevale/pokedex/internal/pokeapi"
 
 type Config struct {
-	Next           string
-	Previous       string
-	PokeClient pokeapi.Client
+	Next          string
+	Previous      string
+	PokeClient    pokeapi.Client
+	CaughtPokemon map[string]pokeapi.Pokemon
 }
 
 type cliCommand struct {
 	name        string
 	description string
-	Callback    func(config *Config, param string) error
+	Callback    func(config *Config, args ...string) error
 }
 
 func GetCommands() map[string]cliCommand {
@@ -30,6 +31,16 @@ func GetCommands() map[string]cliCommand {
 			name:        "explore",
 			description: "List of Pokemons at Location",
 			Callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Try to catch a pokemon",
+			Callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "Inspect a pokemon you already caught",
+			Callback:    commandInspect,
 		},
 		"help": {
 			name:        "help",
